@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="org.juicekit.container.FlowCanvas"/>
+    <classEntry path="flexUnitTests.UtilTestSuite"/>
+    <classEntry path="flexUnitTests.StringsTest"/>
+    <classEntry path="flexUnitTests.StringsFormatTests"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
