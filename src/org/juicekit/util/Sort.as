@@ -152,44 +152,53 @@ public class Sort
    */
   public static function $(...a):Function
   {
-    if (a && a.length > 0 && a[0] is Array) a = a[0];
-    if (a == null || a.length < 1)
-      throw new ArgumentError("Bad input.");
-
-    if (a.length == 1) {
-      return sortOn(a[0]);
-    } else {
-      var sorts:Array = [];
-      for each (var field:String in a) {
-        sorts.push(sortOn(field));
-      }
-      return multisort(sorts);
-    }
+	  if (a && a.length > 0 && a[0] is Array) a = a[0];
+	  if (a == null || a.length < 1)
+		  throw new ArgumentError("Bad input.");
+	  
+	  if (a.length == 1) {
+		  return sortOn(a[0]);
+	  } else {
+		  var sorts:Array = [];
+		  for each (var field:String in a) {
+			  sorts.push(sortOn(field));
+		  }
+		  return multisort(sorts);
+	  }
   }
 
+  
   private static function multisort(f:Array):Function
   {
-    return function(a:Object, b:Object):int {
-      var c:int;
-      for (var i:uint = 0; i < f.length; ++i) {
-        if ((c = f[i](a, b)) != 0) return c;
-      }
-      return 0;
-    }
+	  // The fields parameter allows this to be used with 
+	  // ArrayCollection Sort.compareFunction
+	  // it is currently unused
+	  return function(a:Object, b:Object, fields:Array=null):int {
+		  var c:int;
+		  for (var i:uint = 0; i < f.length; ++i) {
+			  if ((c = f[i](a, b)) != 0) return c;
+		  }
+		  return 0;
+	  }
   }
-
+  
   private static function sortOn(field:String):Function
   {
-    var c:Number = field.charCodeAt(0);
-    var asc:Boolean = (c == ASC || c != DSC);
-    if (c == ASC || c == DSC) field = field.substring(1);
-    var p:Property = Property.$(field);
-    return function(a:Object, b:Object):int {
-      var da:* = p.getValue(a);
-      var db:* = p.getValue(b);
-      return (asc ? 1 : -1) * (da > db ? 1 : da < db ? -1 : 0);
-    }
+	  var c:Number = field.charCodeAt(0);
+	  var asc:Boolean = (c == ASC || c != DSC);
+	  if (c == ASC || c == DSC) field = field.substring(1);
+	  var p:Property = Property.$(field);
+
+	  // The fields parameter allows this to be used with 
+	  // ArrayCollection Sort.compareFunction
+	  // it is currently unused
+	  return function(a:Object, b:Object, fields:Array=null):int {
+		  var da:* = p.getValue(a);
+		  var db:* = p.getValue(b);
+		  return (asc ? 1 : -1) * (da > db ? 1 : da < db ? -1 : 0);
+	  }
   }
+  
 
   // --------------------------------------------------------------------
 
