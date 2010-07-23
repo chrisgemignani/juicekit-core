@@ -118,13 +118,30 @@ public class Easing
    * @return    An ease-in, ease-out function using the polynomial x^exp
    */
   public static function easeInOutPoly(exp:Number):Function {
-    return function(t:Number):Number {
-      if (t < 0)  return 0;
-      if (t > 1)  return 1;
-      if (t < .5) return 0.5 * Math.pow(2 * t, exp);
-      else        return 0.5 * (2 - Math.pow(2 * (1 - t), exp));
-    }
+	  // Optimized with a static lookup
+	  // for the default transitioner animation
+	  // as this is the default easer
+	  const poly3Lookup:Array = [0.000,0.000,0.000,0.000,0.000,0.000,0.001,0.002,0.002,0.004,0.005,0.006,0.008,0.011,0.013,0.016,0.019,0.023,0.027,0.032,0.037,0.042,0.048,0.055,0.062,0.070,0.078,0.087,0.097,0.108,0.119,0.131,0.143,0.157,0.171,0.186,0.202,0.219,0.237,0.256,0.275,0.296,0.318,0.340,0.364,0.389,0.415,0.442,0.470,0.500,0.529,0.557,0.584,0.610,0.635,0.659,0.682,0.703,0.724,0.744,0.762,0.780,0.797,0.813,0.828,0.842,0.856,0.868,0.880,0.892,0.902,0.912,0.921,0.929,0.937,0.944,0.951,0.957,0.963,0.968,0.972,0.976,0.980,0.983,0.986,0.989,0.991,0.993,0.994,0.996,0.997,0.998,0.998,0.999,0.999,0.999,0.999,1.000,1.000,1.000];
+	  if (exp == 3) {
+		  return function(t:Number):Number {
+			  if (t < 0.05)  return 0;
+			  if (t > 0.95)  return 1;
+			  return poly3Lookup[int(t*100)];			  
+		  }		 
+	  } else {
+		  return function(t:Number):Number {
+			  if (t < 0)  return 0;
+			  if (t > 1)  return 1;
+			  if (t < .5) return 0.5 * Math.pow(2 * t, exp);
+			  else        return 0.5 * (2 - Math.pow(2 * (1 - t), exp));
+		  }		  
+	  }
   }
+  
+ 
+
+  
+  
 
   /**
    * Easing equation function generator for polynomial easing out/in: deceleration until halfway, then acceleration.
