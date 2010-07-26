@@ -1,11 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" version="3">
+<flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
-    <classEntry path="org.juicekit.container.FlowCanvas"/>
-    <classEntry path="flexUnitTests.UtilTestSuite"/>
-    <classEntry path="flexUnitTests.StringsTest"/>
-    <classEntry path="flexUnitTests.StringsFormatTests"/>
+    <classEntry path="org.juicekit.animate.Easing"/>
+    <classEntry path="org.juicekit.animate.FunctionSequence"/>
+    <classEntry path="org.juicekit.animate.ISchedulable"/>
+    <classEntry path="org.juicekit.animate.Parallel"/>
+    <classEntry path="org.juicekit.animate.Pause"/>
+    <classEntry path="org.juicekit.animate.Scheduler"/>
+    <classEntry path="org.juicekit.animate.Sequence"/>
+    <classEntry path="org.juicekit.animate.Transition"/>
+    <classEntry path="org.juicekit.animate.TransitionEvent"/>
+    <classEntry path="org.juicekit.animate.Transitioner"/>
+    <classEntry path="org.juicekit.animate.Tween"/>
+    <classEntry path="org.juicekit.animate.interpolate.ArrayInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.ColorInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.DateInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.Interpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.MatrixInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.NumberInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.ObjectInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.PointInterpolator"/>
+    <classEntry path="org.juicekit.animate.interpolate.RectangleInterpolator"/>
+    <classEntry path="org.juicekit.containers.BrowserCanvas"/>
+    <classEntry path="org.juicekit.containers.FlowCanvas"/>
+    <classEntry path="org.juicekit.events.AutoTextFieldEvent"/>
+    <classEntry path="org.juicekit.events.InactivityEvent"/>
+    <classEntry path="org.juicekit.events.InactivityMonitor"/>
+    <classEntry path="org.juicekit.events.JuiceKitEvent"/>
+    <classEntry path="org.juicekit.interfaces.IEvaluable"/>
+    <classEntry path="org.juicekit.interfaces.IPredicate"/>
+    <classEntry path="org.juicekit.util.Arrays"/>
+    <classEntry path="org.juicekit.util.Colors"/>
+    <classEntry path="org.juicekit.util.Dates"/>
+    <classEntry path="org.juicekit.util.Displays"/>
+    <classEntry path="org.juicekit.util.Filter"/>
+    <classEntry path="org.juicekit.util.Geometry"/>
+    <classEntry path="org.juicekit.util.IValueProxy"/>
+    <classEntry path="org.juicekit.util.Maths"/>
+    <classEntry path="org.juicekit.util.Orientation"/>
+    <classEntry path="org.juicekit.util.Property"/>
+    <classEntry path="org.juicekit.util.Shapes"/>
+    <classEntry path="org.juicekit.util.Sort"/>
+    <classEntry path="org.juicekit.util.Stats"/>
+    <classEntry path="org.juicekit.util.Strings"/>
+    <classEntry path="org.juicekit.util.collection.AlphanumSort"/>
+    <classEntry path="org.juicekit.util.heap.FibonacciHeap"/>
+    <classEntry path="org.juicekit.util.heap.HeapNode"/>
+    <classEntry path="org.juicekit.util.helper.Browser"/>
+    <classEntry path="org.juicekit.util.helper.CSSUtil"/>
+    <classEntry path="org.juicekit.util.helper.Clipboard"/>
+    <classEntry path="org.juicekit.util.helper.Formatter"/>
+    <classEntry path="org.juicekit.util.helper.GraphicsUtil"/>
+    <classEntry path="org.juicekit.util.math.DenseMatrix"/>
+    <classEntry path="org.juicekit.util.math.IMatrix"/>
+    <classEntry path="org.juicekit.util.math.SparseMatrix"/>
+    <classEntry path="org.juicekit.util.model.ModelObject"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="org/juicekit/util/preloader/assets/juicekit.png" sourcePath="org/juicekit/util/preloader/assets/juicekit.png"/>
+    <resourceEntry destPath="org/juicekit/util/preloader/assets/juiceonly.png" sourcePath="org/juicekit/util/preloader/assets/juiceonly.png"/>
+    <resourceEntry destPath="org/juicekit/util/preloader/assets/juicekit_logo.png" sourcePath="org/juicekit/util/preloader/assets/juicekit_logo.png"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>
