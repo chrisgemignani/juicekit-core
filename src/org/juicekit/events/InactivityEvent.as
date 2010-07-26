@@ -32,11 +32,11 @@ public class InactivityEvent extends Event {
 
 
   /**
-   * The <code>InactivityEvent.INACTIVITY_PERIOD</code> constant
+   * The <code>InactivityEvent.JK_INACTIVITY_PERIOD</code> constant
    * defines the value of the <code>type</code> property of the event
    * object for a <code>jkInactivityPeriod</code> event.
    */
-  public static const INACTIVITY_PERIOD:String = "jkInactivityPeriod";
+  public static const JK_INACTIVITY_PERIOD:String = "jkInactivityPeriod";
 
 
   /**

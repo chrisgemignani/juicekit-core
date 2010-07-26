@@ -28,15 +28,14 @@ package org.juicekit.events {
 	/**
 	 * Dispatched when the idle period has expired with no activity.
 	 *
-	 * @eventType org.juicekit.events.InactivityEvent.INACTIVITY_PERIOD
+	 * @eventType org.juicekit.events.InactivityEvent.JK_INACTIVITY_PERIOD
 	 */
 	[Event(name="jkInactivityPeriod", type="org.juicekit.events.InactivityEvent")]
 	
 	
 	/**
-	 * The InactivityMonitor class monitors other event dispatchers
-	 * for keyboard or mouse events in order to signal periods of
-	 * inactivity to listeners of <code>jkInactivityPeriod</code>.
+	 * Monitors other event dispatchers for keyboard or mouse events in order to 
+	 * signal periods of inactivity to listeners.
 	 *
 	 * @author Jon Buffington
 	 * @author Chris Gemignani
@@ -46,8 +45,11 @@ package org.juicekit.events {
 	public class InactivityMonitor extends EventDispatcher {
 		
 		
-		private var _timer:Timer;
-		private var _monitored:IEventDispatcher;
+		/** @private */
+		protected var _timer:Timer;
+		/** @private */
+		protected var _monitored:IEventDispatcher;
+		/** @private */
 		protected var _monitoredEvents:Array = [MouseEvent.CLICK, KeyboardEvent.KEY_DOWN, KeyboardEvent.KEY_UP];
 		
 		
@@ -74,11 +76,11 @@ package org.juicekit.events {
 		 * Specifies the minimum number of milliseconds between
 		 * watched events before an InactivityEvent is dispatched.
 		 */
-		public function set maxIdle(value:Number):void {
+		public function set duration(value:Number):void {
 			_timer.delay = value;
 		}
 		
-		public function get maxIdle():Number {
+		public function get duration():Number {
 			return _timer.delay;
 		}
 		
@@ -87,10 +89,12 @@ package org.juicekit.events {
 		 * Specifies the event names to monitor. The default
 		 * monitored events are MouseEvent.CLICK, KeyboardEvent.KEY_DOWN,
 		 * and KeyboardEvent.KEY_UP.
+		 * 
+		 * @param eventArray an Array of Event names to monitor.
 		 */
-		public function setMonitoredEvents(value:Array):void {
+		public function setMonitoredEvents(eventArray:Array):void {
 			shutdown();
-			_monitoredEvents = value.slice();
+			_monitoredEvents = eventArray.slice();
 			boot();
 		}
 		
@@ -111,7 +115,7 @@ package org.juicekit.events {
 		
 		private function handleTimer(event:TimerEvent):void {
 			_timer.reset();	// stop and zero the internal counter
-			dispatchEvent(new InactivityEvent(InactivityEvent.INACTIVITY_PERIOD,
+			dispatchEvent(new InactivityEvent(InactivityEvent.JK_INACTIVITY_PERIOD,
 				false,
 				false,
 				_monitored,
