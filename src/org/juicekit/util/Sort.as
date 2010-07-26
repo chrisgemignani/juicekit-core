@@ -159,6 +159,7 @@ package org.juicekit.util
 			ac.refresh();
 		}
 		
+		
 		/**
 		 * Creates a comparator function using the specification given
 		 * by the input arguments. The resulting sorting function can be used

@@ -132,7 +132,7 @@ package org.juicekit.util.collection {
 		 * @see mx.collections.ICollectionView
 		 * @see mx.controls.dataGridClasses.DataGridColumn
 		 */
-		public static function alphanumCompare(left:Object, right:Object):int {
+		public static function alphanumCompare(left:Object, right:Object, fields:Array=null):int {
 			var retVal:int = BOTH_ARE_EQUIV;
 			
 			const ls:Array = splitIntoAlphaOrNum(left.toString());
