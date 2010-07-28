@@ -198,9 +198,7 @@ package org.juicekit.util
 		}
 		
 		/**
-		 * Sets the value of this property for the input object. If the reset
-		 * flag is true, all properties along a property chain will be updated.
-		 * Otherwise, only the last property in the chain is updated.
+		 * Sets the value of this property for the input object. 
 		 * @param x the object to set the property value for
 		 * @param val the value to set
 		 */
@@ -230,20 +228,6 @@ package org.juicekit.util
 				} catch (e:ReferenceError) {
 					isStyle = true;
 					p.setStyle(_chain[i], val);
-				}
-				
-				for (i = _chain.length - 1; --i >= 0;) {
-					x = p;
-					p = __stack.pop();
-					try {
-						try {
-							p[_chain[i]] = val;
-						} catch (e:ReferenceError) {
-							isStyle = true;
-							p.setStyle(_chain[i], val);
-						}
-					} catch (err:Error) {
-					}
 				}
 			}
 		}

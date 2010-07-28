@@ -11,5 +11,6 @@ package flexUnitTests
     public var matrixTests:MatrixTests;
 	public var sortTests:SortTests;
 	public var colorTests:ColorTests;
+	public var propertyTests:PropertyTests;
   }
 }

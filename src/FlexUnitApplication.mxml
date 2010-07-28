@@ -7,9 +7,9 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:flexui="flexunit.flexui.*" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import flexUnitTests.StringsTest;
 			import flexUnitTests.StringsFormatTests;
 			import flexUnitTests.SortTests;
+			import flexUnitTests.PropertyTests;
 			import flexUnitTests.MatrixTests;
 			import flexUnitTests.ColorTests;
 			import flexUnitTests.AnimationTests;
@@ -22,9 +22,9 @@
 				testsToRun.push(flexUnitTests.AnimationTests);
 				testsToRun.push(flexUnitTests.ColorTests);
 				testsToRun.push(flexUnitTests.MatrixTests);
+				testsToRun.push(flexUnitTests.PropertyTests);
 				testsToRun.push(flexUnitTests.SortTests);
 				testsToRun.push(flexUnitTests.StringsFormatTests);
-				testsToRun.push(flexUnitTests.StringsTest);
 				return testsToRun;
 			}
 			
