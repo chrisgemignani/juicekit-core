@@ -1,4 +1,4 @@
-package flexUnitTests
+package 
 {
   import flexunit.framework.TestCase;
   

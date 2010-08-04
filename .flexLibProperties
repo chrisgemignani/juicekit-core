@@ -43,7 +43,6 @@
     <classEntry path="org.juicekit.util.Sort"/>
     <classEntry path="org.juicekit.util.Stats"/>
     <classEntry path="org.juicekit.util.Strings"/>
-    <classEntry path="org.juicekit.util.collection.AlphanumSort"/>
     <classEntry path="org.juicekit.util.heap.FibonacciHeap"/>
     <classEntry path="org.juicekit.util.heap.HeapNode"/>
     <classEntry path="org.juicekit.util.helper.Browser"/>

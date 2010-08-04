@@ -1,7 +1,8 @@
-package flexUnitTests
+package 
 {
   /**
   * Test suite for utility classes
+   * [RunWith("org.flexunit.runners.Suite")]
   */
   [Suite]
   [RunWith("org.flexunit.runners.Suite")]

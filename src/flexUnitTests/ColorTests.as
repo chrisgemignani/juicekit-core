@@ -1,4 +1,4 @@
-package flexUnitTests {
+package  {
 	import org.juicekit.util.Colors;
 	
 	import flexunit.framework.TestCase;
@@ -12,7 +12,8 @@ package flexUnitTests {
 	public class ColorTests extends TestCase {
 		
 		public function testSaturation():void {
-			assertEquals(3,3); 
+      var x:int = 3;
+			assertEquals(x,3);
 		}
 		
 	}

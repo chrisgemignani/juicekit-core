@@ -53,6 +53,19 @@ package org.juicekit.util
 	 * includes a "-" (negative sign) prefix, that variable will instead
 	 * be sorted in descending order.
 	 * </p>
+	 * 
+	 * <p>A "#" (hash) prefix will perform a natural sorting algorithm outlined
+	 * at <a href="http://www.davekoelle.com/alphanum.html">
+	 * http://www.davekoelle.com/alphanum.html</a>.
+	 *
+	 * <p>"The Alphanum Algorithm sorts strings containing a mix of letters and
+	 * numbers. Given strings of mixed characters and numbers, it sorts the
+	 * numbers in value order, while sorting the non-numbers in ASCII order.
+	 * The end result is a natural sorting order."</p>
+	 *
+	 * @author Jon Buffington
+	 * @author Chris Gemignani
+	 * @author Flare team
 	 */
 	public class Sort
 	{
@@ -60,6 +73,8 @@ package org.juicekit.util
 		public static const ASC:Number = '+'.charCodeAt(0);
 		/** Prefix indicating a descending sort order. */
 		public static const DSC:Number = '-'.charCodeAt(0);
+		/** Prefix indicating an alphanum sort order. */
+		public static const ALPHANUM:Number = '#'.charCodeAt(0);
 		
 		private var _comp:Function;
 		private var _crit:Array;
@@ -208,19 +223,182 @@ package org.juicekit.util
 			var c:Number = field.charCodeAt(0);
 			var asc:Boolean = (c == ASC || c != DSC);
 			if (c == ASC || c == DSC) field = field.substring(1);
+			
+			// check for alphanum
+			c = field.charCodeAt(0);
+			var alphanum:Boolean = (c == ALPHANUM);
+			if (alphanum) field = field.substring(1);
+			
 			var p:Property = Property.$(field);
 			
 			// The fields parameter allows this to be used with 
 			// ArrayCollection Sort.compareFunction
 			// it is currently unused
-			return function(a:Object, b:Object, fields:Array=null):int {
-				var da:* = p.getValue(a);
-				var db:* = p.getValue(b);
-				return (asc ? 1 : -1) * (da > db ? 1 : da < db ? -1 : 0);
+			if (alphanum) {
+				return function(a:Object, b:Object, fields:Array=null):int {
+					var da:* = p.getValue(a);
+					var db:* = p.getValue(b);
+					trace(da, db, alphanumCompare(da, db));
+					return (asc ? 1 : -1) * alphanumCompare(da, db);
+				}
+			} else {
+				return function(a:Object, b:Object, fields:Array=null):int {
+					var da:* = p.getValue(a);
+					var db:* = p.getValue(b);
+					return (asc ? 1 : -1) * (da > db ? 1 : da < db ? -1 : 0);
+				}
 			}
+		}
+
+		
+		// --------------------------------------------------------------------
+		// alphanum sorting
+		// --------------------------------------------------------------------	
+				
+		private static const ZERO_ASCII:Number = "0".charCodeAt(0);	// Decimal 48
+		private static const NINE_ASCII:Number = "9".charCodeAt(0);	// Decimal 57
+				
+		/**
+		 * @private
+		 *
+		 * Returns true if the charCode maps to the ASCII numeral character codes.
+		 */
+		private static function isDigit(chCode:Number):Boolean {
+			return chCode >= ZERO_ASCII && chCode <= NINE_ASCII;
+		}
+		
+		/**
+		 * @private
+		 *
+		 * Transform a string into it numeric and alphabetic parts.
+		 */
+		private static function splitIntoAlphaOrNum(s:String):Array {
+			var retVal:Array = new Array;
+			
+			const len:int = s.length;
+			if (len > 0) {
+				var accum:String = new String;
+				var wasNum:Boolean = isDigit(s.charCodeAt(0));
+				accum += s.charAt(0);
+				for (var ix:int = 1; ix < len; ix++) {
+					if (isDigit(s.charCodeAt(ix))) {
+						if (wasNum) {
+							// Continues to be numeric.
+							accum += s.charAt(ix);
+						}
+						else {
+							// Changed to numeric.
+							wasNum = true;
+							
+							// Capture existing alphabetic.
+							retVal.push(accum);
+							
+							// Start capturing numeric.
+							accum = s.charAt(ix);
+						}
+					}
+					else if (wasNum) {
+						// Changed to alphabetic.
+						wasNum = false;
+						
+						// Capture existing numeric.
+						retVal.push(Number(accum));
+						
+						// Start capturing alphabetic.
+						accum = s.charAt(ix);
+					}
+					else {
+						// Continues to be alphabetic.
+						accum += s.charAt(ix);
+					}
+				}
+				
+				// Capture remaining.
+				if (wasNum) {
+					retVal.push(Number(accum));
+				}
+				else {
+					retVal.push(accum);
+				}
+			}
+			
+			return retVal;
+		}
+		
+		// Use constants to document the obscure integral comparison return values.
+		private static const BOTH_ARE_EQUIV:int = 0;
+		private static const LEFT_IS_LESS_THAN_RIGHT:int = -1;
+		private static const LEFT_IS_GREATER_THAN_RIGHT:int = 1;
+		
+		
+		/**
+		 * Public function intended to be used directly by sortable types such
+		 * as <code>ICollectionView</code> or types that accept custom comparison
+		 * functions (e.g., <code>DataGridColumn</code>).
+		 *
+		 * @see mx.collections.ICollectionView
+		 * @see mx.controls.dataGridClasses.DataGridColumn
+		 */
+		public static function alphanumCompare(left:Object, right:Object, fields:Array=null):int {
+			var retVal:int = BOTH_ARE_EQUIV;
+			
+			const ls:Array = splitIntoAlphaOrNum(left.toString());
+			const rs:Array = splitIntoAlphaOrNum(right.toString());
+			
+			const partsN:int = ls.length;
+			var ix:int = 0;
+			var lPart:*, rPart:*;
+			
+			while ((retVal === BOTH_ARE_EQUIV) && (ix < partsN)) {
+				lPart = ls[ix];
+				rPart = rs[ix];
+				
+				if ((lPart is Number && rPart is Number)
+					|| (lPart is String && rPart is String)) {
+					// Handle the case were the left and right are both
+					// the same type and are therefore comparable using
+					// the built-in operators.
+					if (lPart > rPart) {
+						retVal = LEFT_IS_GREATER_THAN_RIGHT;
+					}
+					else if (lPart < rPart) {
+						retVal = LEFT_IS_LESS_THAN_RIGHT;
+					}
+					else {
+						retVal = BOTH_ARE_EQUIV;
+					}
+				}
+				else if (!rPart) {
+					retVal = LEFT_IS_GREATER_THAN_RIGHT;
+				}
+				else {
+					// Handle the case were the left and right are
+					// different types. Use the built-in String comparison.
+					var lStr:String = lPart.toString();
+					var rStr:String = rPart.toString();
+					
+					if (lStr > rStr) {
+						retVal = LEFT_IS_GREATER_THAN_RIGHT;
+					}
+					else if (lStr < rStr) {
+						retVal = LEFT_IS_LESS_THAN_RIGHT;
+					}
+					else {
+						// Make an arbitrary decision that the left is
+						// greater than the right since they cannot be equal
+						// if they are different types.
+						retVal = LEFT_IS_GREATER_THAN_RIGHT;
+					}
+				}
+				
+				ix++;
+			}
+			return retVal;
 		}
 		
 		
+		// --------------------------------------------------------------------
+		// sorting
 		// --------------------------------------------------------------------
 		
 		private static const SORT_THRESHOLD:int = 16;
